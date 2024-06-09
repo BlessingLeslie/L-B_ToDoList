@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Leslie & Eileen's To-Do List</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Leslie & Eileen's To-Do List</h1>
+        <input type="text" id="searchBar" placeholder="Search tasks..." onkeyup="searchTasks()">
+        <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+        <img src="https://rawcdn.githack.com/naomikonlack/WEBTECHGITDEMO/7bd262c424498e5ed99b4620d19ad60431619c80/IMG_6540.png" alt="Person pointing" id="pointerImage" style="position: absolute; left: -13%; top: -25px; width: 155px; z-index: 2;">
+    </header>
+    
+    <main>
+        <div class="section-row">
+            <div class="section-container" style="background-color: #ffcccb;">
+                <h2>To-Do List for Leslie</h2>
+                <div class="input-group">
+                    <input type="text" id="taskInputLeslie" placeholder="Enter a new task">
+                    <input type="date" id="dueDateLeslie">
+                    <input type="number" id="priorityLeslie" placeholder="Priority" min="1" max="5">
+                    <button onclick="addTask('Leslie')">Add Task</button>
+                </div>
+                <ul id="taskListLeslie" class="task-list"></ul>
+                <h3>Done <button onclick="toggleDone('Leslie')">Toggle View</button></h3>
+                <ul id="doneListLeslie" class="done-list hidden"></ul>
+                <div id="countLeslie" class="count"></div>
+            </div>
+
+            <div class="section-container" style="background-color: #add8e6;">
+                <h2>To-Do List for Eileen</h2>
+                <div class="input-group">
+                    <input type="text" id="taskInputEileen" placeholder="Enter a new task">
+                    <input type="date" id="dueDateEileen">
+                    <input type="number" id="priorityEileen" placeholder="Priority" min="1" max="5">
+                    <button onclick="addTask('Eileen')">Add Task</button>
+                </div>
+                <ul id="taskListEileen" class="task-list"></ul>
+                <h3>Done <button onclick="toggleDone('Eileen')">Toggle View</button></h3>
+                <ul id="doneListEileen" class="done-list hidden"></ul>
+                <div id="countEileen" class="count"></div>
+            </div>
+        </div>
+
+        <div class="section-row">
+            <div class="section-container" style="background-color: #fdfd96;">
+                <h2>List of Schools</h2>
+                <div class="input-group">
+                    <input type="text" id="taskInputSchools" placeholder="Enter a new school">
+                    <select id="addedBySchools">
+                        <option value="Eileen">Eileen</option>
+                        <option value="Leslie">Leslie</option>
+                    </select>
+                    <button onclick="addTask('Schools')">Add School</button>
+                </div>
+                <p>Tick if you applied to the school</p>
+                <ul id="taskListSchools" class="task-list"></ul>
+                <h3>Schools we applied for <button onclick="toggleDone('Schools')">Toggle View</button></h3>
+                <ul id="doneListSchools" class="done-list hidden"></ul>
+                <div id="countSchools" class="count"></div>
+            </div>
+
+            <div class="section-container" style="background-color: #98fb98;">
+                <h2>To-Do List for PackPal</h2>
+                <div class="input-group">
+                    <input type="text" id="taskInputPackPal" placeholder="Enter a new task">
+                    <input type="date" id="dueDatePackPal">
+                    <input type="number" id="priorityPackPal" placeholder="Priority" min="1" max="5">
+                    <select id="addedByPackPal">
+                        <option value="Eileen">Eileen</option>
+                        <option value="Leslie">Leslie</option>
+                    </select>
+                    <button onclick="addTask('PackPal')">Add Task</button>
+                </div>
+                <ul id="taskListPackPal" class="task-list"></ul>
+                <h3>Done <button onclick="toggleDone('PackPal')">Toggle View</button></h3>
+                <ul id="doneListPackPal" class="done-list hidden"></ul>
+                <div id="countPackPal" class="count"></div>
+            </div>
+        </div>
+    </main>
+
+    <div class="notifications" id="notifications"></div>
+
+    <div class="total-completed">
+        <h2>Total Tasks Completed</h2>
+        <div id="totalCompletedTasks" class="count"></div>
+    </div>
+    <footer>
+        <p>© Created by Eileen and Leslie for their personal usage, thank you</p>
+    </footer>
+
+</body>
+</html>
+
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #e1e0e0 0%, #a76bbe 50%, #ff758c 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin: 0;
+    color: #333;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+header h1 {
+    font-size: 2.5em;
+    color: #fff;
+}
+
+header input {
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid #fff;
+    outline: none;
+    margin-right: 10px;
+}
+
+header button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+}
+
+header button:hover {
+    background-color: #555;
+}
+
+#pointerImage {
+    position: absolute;
+    left: 76%;
+    top: 46px;
+    width: 150px;
+    z-index: 2;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.section-container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 550px;
+    margin: 10px;
+}
+
+.section-row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    justify-content: space-between;
+    max-width: 1200px;
+
+}
+
+.section-container h2, .section-container h3 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.input-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+input[type="text"], input[type="date"], input[type="number"], select {
+    width: calc(25% - 10px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 5px;
+    font-size: 1em;
+}
+
+button {
+    padding: 10px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+button:hover {
+    background: #218838;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background: #f9f9f9;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1em;
+}
+
+li.completed {
+    text-decoration: line-through;
+    color: #888;
+}
+
+li button {
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+li button:hover {
+    background: darkred;
+}
+
+li.overdue {
+    background: #f8d7da;
+}
+
+li.high-priority {
+    border-left: 5px solid red;
+}
+
+.done-list li {
+    background: #d1e7dd;
+}
+
+.done-list li button {
+    background: orange;
+}
+
+.hidden {
+    display: none;
+}
+
+.notifications {
+    background: #ffcccb;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 100%;
+    margin: 10px;
+    font-size: 1em;
+}
+
+.count {
+    margin-top: 10px;
+    font-size: 1em;
+}
+
+.total-completed {
+    margin-top: 20px;
+}
+
+body.dark-mode {
+    background: linear-gradient(135deg, #121212 0%, #333 50%, #444 100%);
+    color: #fff;
+}
+
+.section-container.dark-mode {
+    background: #333;
+    color: #000000;
+}
+
+input.dark-mode, select.dark-mode {
+    background: #444;
+    color: #fff;
+    border: 1px solid #888;
+}
+
+button.dark-mode {
+    background: #555;
+    color: #fff;
+}
+
+button.dark-mode:hover {
+    background: #777;
+}
+
+footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    
+}
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    header h1 {
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+
+    .section-row {
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .section-container {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .input-group {
+        flex-direction: column;
+    }
+
+    input[type="text"], input[type="date"], input[type="number"], select {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    loadTasks('Leslie');
+    loadTasks('Eileen');
+    loadTasks('PackPal');
+    loadTasks('Schools');
+    updateCounts();
+    updateTotalCompleted();
+    checkNotifications();
+    setInterval(checkNotifications, 60000); // Check notifications every minute
+});
+
+function addTask(person) {
+    var taskInput = document.getElementById('taskInput' + person);
+    var dueDateInput = document.getElementById('dueDate' + person);
+    var priorityInput = document.getElementById('priority' + person);
+    var taskList = document.getElementById('taskList' + person);
+
+    if (taskInput.value.trim() === '') {
+        alert('Please enter a task.');
+        return;
+    }
+
+    var li = document.createElement('li');
+    var checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.onclick = function () {
+        li.classList.toggle('completed');
+        moveTask(person, li);
+        saveTasks(person);
+        updateCounts();
+        updateTotalCompleted();
+        checkNotifications();
+    };
+
+    var dueDate = dueDateInput.value ? `Due: ${dueDateInput.value}` : '';
+    var priority = priorityInput.value ? `Priority: ${priorityInput.value}` : '';
+    var currentDate = new Date().toISOString().split('T')[0];
+
+    li.appendChild(checkbox);
+    li.appendChild(document.createTextNode(taskInput.value + ' ' + dueDate + ' ' + priority));
+
+    var deleteButton = document.createElement('button');
+    deleteButton.appendChild(document.createTextNode('Delete'));
+    deleteButton.onclick = function () {
+        if (li.classList.contains('completed')) {
+            document.getElementById('doneList' + person).removeChild(li);
+        } else {
+            taskList.removeChild(li);
+        }
+        saveTasks(person);
+        updateCounts();
+        updateTotalCompleted();
+        checkNotifications();
+    };
+
+    li.appendChild(deleteButton);
+    li.classList.add('task-item');
+
+    if (dueDateInput.value && dueDateInput.value < currentDate) {
+        li.classList.add('overdue');
+    }
+
+    if (priorityInput.value && priorityInput.value === '1') {
+        li.classList.add('high-priority');
+    }
+
+    if (person === 'Schools' || person === 'PackPal') {
+        var addedBy = document.getElementById('addedBy' + person).value;
+        li.appendChild(document.createTextNode(` (added by ${addedBy})`));
+    }
+
+    taskList.appendChild(li);
+    taskInput.value = '';
+    if (dueDateInput) dueDateInput.value = '';
+    if (priorityInput) priorityInput.value = '';
+
+    saveTasks(person);
+    sortTasksByPriority(taskList); // Ensure tasks are sorted by priority after adding a new task
+    updateCounts();
+    updateTotalCompleted();
+    checkNotifications();
+}
+
+function saveTasks(person) {
+    var tasks = [];
+    document.querySelectorAll('#taskList' + person + ' .task-item').forEach(function (li) {
+        tasks.push({
+            text: li.childNodes[1].nodeValue.trim(),
+            completed: li.classList.contains('completed'),
+            dueDate: li.querySelector('input[type="date"]') ? li.querySelector('input[type="date"]').value : '',
+            priority: li.querySelector('input[type="number"]') ? li.querySelector('input[type="number"]').value : '',
+            addedBy: person === 'Schools' || person === 'PackPal' ? li.querySelector('select') ? li.querySelector('select').value : '' : ''
+        });
+    });
+    document.querySelectorAll('#doneList' + person + ' .task-item').forEach(function (li) {
+        tasks.push({
+            text: li.childNodes[1].nodeValue.trim(),
+            completed: true,
+            dueDate: li.querySelector('input[type="date"]') ? li.querySelector('input[type="date"]').value : '',
+            priority: li.querySelector('input[type="number"]') ? li.querySelector('input[type="number"]').value : '',
+            addedBy: person === 'Schools' || person === 'PackPal' ? li.querySelector('select') ? li.querySelector('select').value : '' : ''
+        });
+    });
+    localStorage.setItem('tasks' + person, JSON.stringify(tasks));
+}
+
+function loadTasks(person) {
+    var tasks = JSON.parse(localStorage.getItem('tasks' + person) || '[]');
+    var taskList = document.getElementById('taskList' + person);
+    var doneList = document.getElementById('doneList' + person);
+    taskList.innerHTML = '';
+    doneList.innerHTML = '';
+
+    tasks.forEach(function (task) {
+        var li = document.createElement('li');
+        var checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = task.completed;
+        checkbox.onclick = function () {
+            li.classList.toggle('completed');
+            moveTask(person, li);
+            saveTasks(person);
+            updateCounts();
+            updateTotalCompleted();
+            checkNotifications();
+        };
+
+        li.appendChild(checkbox);
+        li.appendChild(document.createTextNode(task.text));
+
+        var deleteButton = document.createElement('button');
+        deleteButton.appendChild(document.createTextNode('Delete'));
+        deleteButton.onclick = function () {
+            if (task.completed) {
+                doneList.removeChild(li);
+            } else {
+                taskList.removeChild(li);
+            }
+            saveTasks(person);
+            updateCounts();
+            updateTotalCompleted();
+            checkNotifications();
+        };
+
+        li.appendChild(deleteButton);
+        li.classList.add('task-item');
+
+        if (task.dueDate && task.dueDate < new Date().toISOString().split('T')[0]) {
+            li.classList.add('overdue');
+        }
+
+        if (task.priority && task.priority === '1') {
+            li.classList.add('high-priority');
+        }
+
+        if (task.completed) {
+            li.classList.add('completed');
+            doneList.appendChild(li);
+        } else {
+            taskList.appendChild(li);
+        }
+    });
+    sortTasksByPriority(taskList); // Ensure tasks are sorted by priority when loading
+    updateCounts();
+}
+
+function moveTask(person, li) {
+    var taskList = document.getElementById('taskList' + person);
+    var doneList = document.getElementById('doneList' + person);
+
+    if (li.classList.contains('completed')) {
+        taskList.removeChild(li);
+        doneList.appendChild(li);
+    } else {
+        doneList.removeChild(li);
+        taskList.appendChild(li);
+    }
+    sortTasksByPriority(taskList); // Ensure tasks are sorted by priority after moving
+    updateCounts();
+    updateTotalCompleted();
+    checkNotifications();
+}
+
+function toggleDone(person) {
+    var doneList = document.getElementById('doneList' + person);
+    doneList.classList.toggle('hidden');
+}
+
+function updateCounts() {
+    ['Leslie', 'Eileen', 'PackPal', 'Schools'].forEach(person => {
+        var doneList = document.getElementById('doneList' + person);
+        var countDiv = document.getElementById('count' + person);
+        if (person === 'Schools') {
+            var taskList = document.getElementById('taskList' + person);
+            var totalSchools = taskList.children.length;
+            countDiv.innerHTML = `Total schools added: ${totalSchools}<br>Schools we applied for: ${doneList.children.length}`;
+        } else {
+            countDiv.innerHTML = `Total tasks completed: ${doneList.children.length}`;
+        }
+    });
+}
+
+function updateTotalCompleted() {
+    var totalCompleted = ['Leslie', 'Eileen', 'PackPal', 'Schools'].reduce((acc, person) => {
+        return acc + document.getElementById('doneList' + person).children.length;
+    }, 0);
+    document.getElementById('totalCompletedTasks').innerHTML = `Total tasks completed: ${totalCompleted}`;
+}
+
+function checkNotifications() {
+    var notifications = document.getElementById('notifications');
+    notifications.innerHTML = '';
+    var now = new Date();
+    ['Leslie', 'Eileen'].forEach(person => {
+        var taskList = document.getElementById('taskList' + person);
+        Array.from(taskList.children).forEach(task => {
+            var dueDate = task.querySelector('input[type="date"]') ? new Date(task.querySelector('input[type="date"]').value) : null;
+            if (dueDate && (dueDate - now) / (1000 * 60 * 60 * 24) < 3) { // due in less than 3 days
+                notifications.innerHTML += `<p>${person}, you need to complete the task: ${task.childNodes[1].nodeValue}</p>`;
+            }
+        });
+    });
+}
+
+function searchTasks() {
+    var query = document.getElementById('searchBar').value.toLowerCase();
+    ['Leslie', 'Eileen', 'PackPal', 'Schools'].forEach(person => {
+        var taskList = document.getElementById('taskList' + person);
+        Array.from(taskList.children).forEach(task => {
+            var text = task.childNodes[1].nodeValue.toLowerCase();
+            if (text.includes(query)) {
+                task.style.display = '';
+            } else {
+                task.style.display = 'none';
+            }
+        });
+    });
+}
+
+function sortTasksByPriority(taskList) {
+    Array.from(taskList.children)
+        .sort((a, b) => {
+            var priorityA = parseInt(a.childNodes[1].nodeValue.split('Priority: ')[1], 10) || 5;
+            var priorityB = parseInt(b.childNodes[1].nodeValue.split('Priority: ')[1], 10) || 5;
+            return priorityA - priorityB; // Sort in ascending order (lower numbers have higher priority)
+        })
+        .forEach(task => taskList.appendChild(task));
+}
+
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    document.querySelectorAll('.section-container, input, select, button').forEach(element => {
+        element.classList.toggle('dark-mode');
+    });
+}
+
+function editTask(person, li) {
+    var taskText = prompt('Edit task:', li.childNodes[1].nodeValue.trim());
+    if (taskText !== null && taskText.trim() !== '') {
+        li.childNodes[1].nodeValue = taskText;
+        saveTasks(person);
+    }
+}
+
+</script>
+</html>
